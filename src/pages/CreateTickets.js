@@ -1,39 +1,52 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Ajout de useNavigate
 
 export default function CreateTicket() {
+  const navigate = useNavigate(); // Initialise la navigation
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
     priorite: 'Faible'
   });
+
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/tickets', {
-        method: 'POST',
+      // Soumission du ticket via l'API
+      await axios.post('http://127.0.0.1:8000/api/tickets', formData, {
         headers: {
           'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer VOTRE_TOKEN'
-        },
-        body: JSON.stringify(formData)
+          // 'Authorization': `Bearer VOTRE_TOKEN` si besoin plus tard
+        }
       });
 
-      if (response.ok) {
-        setMessage('✅ Ticket soumis avec succès !');
-        setFormData({ titre: '', description: '', priorite: 'Faible' });
-      } else {
-        const res = await response.json();
-        setMessage('❌ Erreur : ' + res.message);
-      }
+      setMessage('✅ Ticket soumis avec succès !');
+      setFormData({
+        titre: '',
+        description: '',
+        priorite: 'Faible'
+      });
+
+      // Redirection vers la liste des tickets après la soumission réussie
+      navigate('/tickets'); // Remplacez '/tickets' par la route appropriée
+
     } catch (error) {
-      setMessage('❌ Erreur de connexion au serveur.');
+      if (error.response) {
+        setMessage(`❌ Erreur : ${error.response.data.message}`);
+      } else {
+        setMessage('❌ Erreur de connexion au serveur.');
+      }
     }
   };
 
@@ -41,9 +54,25 @@ export default function CreateTicket() {
     <div className="form-container">
       <h2>Soumettre un ticket</h2>
       <form onSubmit={handleSubmit}>
-        <input name="titre" value={formData.titre} onChange={handleChange} placeholder="Titre" required />
-        <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" required />
-        <select name="priorite" value={formData.priorite} onChange={handleChange}>
+        <input
+          name="titre"
+          value={formData.titre}
+          onChange={handleChange}
+          placeholder="Titre"
+          required
+        />
+        <textarea
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Description"
+          required
+        />
+        <select
+          name="priorite"
+          value={formData.priorite}
+          onChange={handleChange}
+        >
           <option value="Faible">Faible</option>
           <option value="Moyenne">Moyenne</option>
           <option value="Élevée">Élevée</option>
@@ -51,7 +80,7 @@ export default function CreateTicket() {
         </select>
         <button type="submit">Envoyer</button>
       </form>
-      <p>{message}</p>
+      {message && <p>{message}</p>}
     </div>
   );
 }

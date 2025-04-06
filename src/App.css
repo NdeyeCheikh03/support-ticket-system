@@ -79,4 +79,34 @@ table th, table td {
 table th {
   background-color: #f0f0f0;
 }
+/* src/App.css */
+
+.home-page {
+  text-align: center;
+  padding: 2rem;
+}
+
+.home-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.home-page p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.home-links {
+  font-size: 1.2rem;
+}
+
+.home-links a {
+  text-decoration: none;
+  color: #007bff;
+  margin-right: 1rem;
+}
+
+.home-links a:hover {
+  text-decoration: underline;
+}
 
