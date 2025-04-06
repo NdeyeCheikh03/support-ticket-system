@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api') // 👉 C'est ce préfixe qui rend /api/actif
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
+            Route::middleware('web') 
                 ->group(base_path('routes/web.php'));
         });
     }

@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class AdminController extends Controller 
 {
     // 👥 Liste des utilisateurs
     public function indexUsers()

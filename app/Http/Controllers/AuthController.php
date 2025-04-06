@@ -61,7 +61,7 @@ class AuthController extends Controller
             'user' => $user,
             'token' => $token,
         ]);
-    }
+    } 
 
     /**
      * Déconnexion (suppression du token).

@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
             \Illuminate\Http\Middleware\HandleCors::class, // ✅ Ajout ici aussi pour les routes API
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        ],
+        ], 
     ];
 
     /**
